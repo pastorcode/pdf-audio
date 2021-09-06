@@ -72,6 +72,11 @@ const speak = () => {
   }
 };
 
+//pause
+const pause = () => {
+  synth.pause();
+}
+
 //Event listeners
 
 //Play Audio
@@ -83,8 +88,40 @@ const speak = () => {
 $("#form").on('submit', function(e){
   e.preventDefault();
   speak();
+  $("#play").hide();
+  $("#pause").show();
+  $("#resume").hide();
+  $("#stop").show();
   textInput.blur();
+});
+
+$("#pause").on('click', function(){
+  synth.pause();
+  $("#play").hide();
+  $("#pause").hide();
+  $("#resume").show();
+  $("#stop").show();
 })
+
+$("#stop").on('click', function(){
+  synth.cancel();
+  $("#play").show();
+  $("#pause").hide();
+  $("#resume").hide();
+  $("#stop").hide();
+})
+
+$("#resume").on('click', function(){
+  synth.resume();
+  $("#play").hide();
+  $("#pause").show();
+  $("#resume").hide();
+  $("#stop").show();
+})
+
+$(window).bind('beforeunload',function(){
+  synth.cancel();
+});
 
 //Rate and pitch value change
 rate.addEventListener("change", e => (rateValue.textContent = rate.value));
